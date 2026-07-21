@@ -1,0 +1,30 @@
+{
+  "name": "@superset-ui/plugin-chart-custom-hello",
+  "version": "0.1.0",
+  "description": "Superset Custom Hello World Chart Plugin",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "files": [
+    "esm",
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apache/superset.git",
+    "directory": "superset-frontend/plugins/plugin-chart-custom-hello"
+  },
+  "keywords": [
+    "superset"
+  ],
+  "author": "Antigravity",
+  "license": "Apache-2.0",
+  "peerDependencies": {
+    "@superset-ui/chart-controls": "*",
+    "@superset-ui/core": "*",
+    "@types/react": "*",
+    "react": "^17.0.2"
+  }
+}

@@ -33,6 +33,7 @@ import PartitionChartPlugin from '@superset-ui/legacy-plugin-chart-partition';
 import RoseChartPlugin from '@superset-ui/legacy-plugin-chart-rose';
 import TableChartPlugin from '@superset-ui/plugin-chart-table';
 import { WordCloudChartPlugin } from '@superset-ui/plugin-chart-word-cloud';
+import { CustomHelloChartPlugin } from '@superset-ui/plugin-chart-custom-hello';
 import WorldMapChartPlugin from '@superset-ui/legacy-plugin-chart-world-map';
 import {
   BubbleChartPlugin,
@@ -144,6 +145,7 @@ export default class MainPreset extends Preset {
         new TimePivotChartPlugin().configure({ key: VizType.TimePivot }),
         new TimeTableChartPlugin().configure({ key: VizType.TimeTable }),
         new WordCloudChartPlugin().configure({ key: VizType.WordCloud }),
+        new CustomHelloChartPlugin().configure({ key: 'custom-hello' }),
         new WorldMapChartPlugin().configure({ key: VizType.WorldMap }),
         new EchartsAreaChartPlugin().configure({
           key: VizType.Area,

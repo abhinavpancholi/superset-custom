@@ -17,7 +17,12 @@
  * under the License.
  */
 const zlib = require('zlib');
-const { ZSTDDecompress } = require('simple-zstd');
+let ZSTDDecompress;
+try {
+  ZSTDDecompress = require('simple-zstd').ZSTDDecompress;
+} catch (e) {
+  // zstd command line tool might not be installed on host system (e.g. Windows)
+}
 
 const yargs = require('yargs');
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -130,7 +135,11 @@ function processHTML(proxyResponse, response) {
   } else if (responseEncoding === 'deflate') {
     uncompress = zlib.createInflate();
   } else if (responseEncoding === 'zstd') {
-    uncompress = ZSTDDecompress();
+    if (ZSTDDecompress) {
+      uncompress = ZSTDDecompress();
+    } else {
+      console.warn('zstd decompression is not supported on this host (simple-zstd failed to load)');
+    }
   }
   if (uncompress) {
     originalResponse.pipe(uncompress);
@@ -169,6 +178,17 @@ module.exports = newManifest => {
     hostRewrite: true,
     changeOrigin: true,
     cookieDomainRewrite: '', // remove cookie domain
+    onProxyReq(proxyReq, req) {
+      const acceptEncoding = req.headers['accept-encoding'];
+      if (acceptEncoding) {
+        const filteredEncoding = acceptEncoding
+          .split(',')
+          .map(s => s.trim())
+          .filter(s => s !== 'zstd')
+          .join(', ');
+        proxyReq.setHeader('accept-encoding', filteredEncoding);
+      }
+    },
     selfHandleResponse: true, // so that the onProxyRes takes care of sending the response
     onProxyRes(proxyResponse, request, response) {
       try {
