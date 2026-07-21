@@ -65,6 +65,7 @@ services:
         required: true
       - path: docker/.env-local # optional override
         required: false
+    image: superset-custom-superset-init:latest
     build:
       <<: *common-build
     container_name: superset_app
@@ -80,6 +81,7 @@ services:
 
   superset-init:
     container_name: superset_init
+    image: superset-custom-superset-init:latest
     build:
       <<: *common-build
     command: ["/app/docker/docker-init.sh"]
@@ -99,6 +101,7 @@ services:
       disable: true
 
   superset-worker:
+    image: superset-custom-superset-init:latest
     build:
       <<: *common-build
     container_name: superset_worker
@@ -122,6 +125,7 @@ services:
         ]
 
   superset-worker-beat:
+    image: superset-custom-superset-init:latest
     build:
       <<: *common-build
     container_name: superset_worker_beat
